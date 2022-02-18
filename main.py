@@ -4,6 +4,7 @@ import datetime
 from time import sleep
 from keys import *
 from words import *
+from letters_dict import *
 
 
 auth = tweepy.OAuthHandler(API_KEY, API_KEY_SECRET)
@@ -13,18 +14,26 @@ api = tweepy.API(auth)
 FILE_NAME = "wordle_id.txt"
 
 
-def retrieve_wordle_id(file_name):
+def retrieve_wordle_id():
     f_read = open("wordle_id.txt", 'r')
     wordle_id = int(f_read.read())
     f_read.close()
     return wordle_id
 
 
-def update_wordle_id(file_name, wordle_id):
+def update_wordle_id(wordle_id):
     f_write = open("wordle_id.txt", 'w')
     f_write.write(str(wordle_id + 1))
     f_write.close()
     return
+
+
+def get_word(wordle_id):
+    word = WORDS_LIST[wordle_id + 1]
+    output = u""
+    for letter in word:
+        output += LETTERS_UNICODE[letter]
+    return output
 
 
 def tweet():
@@ -36,17 +45,18 @@ def tweet():
         f"#Wordle {datetime.date.today()}\n\n{WORDS_LIST[wordle_id + 1].upper()}\n\n\n#Wordle #Wordle{wordle_id}")
     return
 
+print(get_word(243))
 
 # schedule.every().day.at("06:00").do(tweet)
-schedule.every().second.do(tweet)
+# schedule.every().second.do(tweet)
 
-print()
-
-
-def main():
-    schedule.run_pending()
-    sleep(1)
+# print()
 
 
-while True:
-    main()
+# def main():
+#     schedule.run_pending()
+#     sleep(1)
+
+
+# while True:
+#     main()
