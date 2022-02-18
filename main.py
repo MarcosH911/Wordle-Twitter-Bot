@@ -32,31 +32,29 @@ def get_word(wordle_id):
     word = WORDS_LIST[wordle_id + 1]
     output = u""
     for letter in word:
-        output += LETTERS_UNICODE[letter]
+        output += LETTERS_UNICODE[letter] + " "
     return output
 
 
 def tweet():
-    wordle_id = retrieve_wordle_id(FILE_NAME)
-    update_wordle_id(FILE_NAME, wordle_id)
+    wordle_id = retrieve_wordle_id()
+    update_wordle_id(wordle_id)
+    word = get_word(wordle_id)
     print(
-        f"#Wordle {datetime.date.today()}\n{WORDS_LIST[wordle_id + 1].upper()}\n#Wordle #Wordle{wordle_id}")
+        f"#Wordle {datetime.date.today()}\n{word}\n#Wordle #Wordle{wordle_id}")
     api.update_status(
-        f"#Wordle {datetime.date.today()}\n\n{WORDS_LIST[wordle_id + 1].upper()}\n\n\n#Wordle #Wordle{wordle_id}")
+        f"#Wordle {datetime.date.today()}\n\n{word}\n\n\n#Wordle #Wordle{wordle_id}")
     return
 
-print(get_word(243))
 
 # schedule.every().day.at("06:00").do(tweet)
-# schedule.every().second.do(tweet)
-
-# print()
+schedule.every().second.do(tweet)
 
 
-# def main():
-#     schedule.run_pending()
-#     sleep(1)
+def main():
+    schedule.run_pending()
+    sleep(1)
 
 
-# while True:
-#     main()
+while True:
+    main()
