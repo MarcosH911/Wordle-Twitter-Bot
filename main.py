@@ -1,7 +1,5 @@
 import tweepy
-import schedule
 import datetime
-from time import sleep
 from keys import *
 from words import *
 from letters_dict import *
@@ -47,14 +45,5 @@ def tweet():
     return
 
 
-# schedule.every().day.at("06:00").do(tweet)
-schedule.every().second.do(tweet)
 
-
-def main():
-    schedule.run_pending()
-    sleep(1)
-
-
-while True:
-    main()
+tweet()
